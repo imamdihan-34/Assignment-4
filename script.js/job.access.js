@@ -108,7 +108,7 @@ function filterCards(type) {
     if (!found) {
         filteredSection.innerHTML = `
             <div class="text-center py-20">
-                <img src="./jobs.png" class="mx-auto mb-4 w-20"/>
+                <img src="./image/Vector (2).png" class="mx-auto mb-4 w-20"/>
                 <h2 class="text-2xl font-bold text-blue-950">No Jobs Available</h2>
                 <p class="text-gray-500 mt-2">Move jobs from All tab</p>
             </div>
