@@ -1,11 +1,10 @@
 const totalElement = document.getElementById("total");
-const interviewElement = document.getElementById("interview-count");
-const rejectElement = document.getElementById("reject-count");
-const tabCount = document.getElementById("tabCount");
+ const interviewElement = document.getElementById("interview-count");
+ const rejectElement = document.getElementById("reject-count");
+ const tabCount = document.getElementById("tabCount");
 
 const allCardsSection = document.getElementById("allcards");
-const filteredSection = document.getElementById("filtered-section");
-
+const filteredSection = document.getElementById("filtered-section")
 const filterButtons = {
     allBtn: document.getElementById("all-filter-btn"),
     interviewBtn: document.getElementById("interview-filter-btn"),
@@ -13,31 +12,28 @@ const filterButtons = {
 };
 
 
-function updateDashboard() {
-
-    const cards = document.querySelectorAll(".card");
-
-    let interview = 0;
+ function updateDashboard() {
+     const cards = document.querySelectorAll(".card");
+     let interview = 0;
     let rejected = 0;
 
-    cards.forEach(card => {
-        const status = card.querySelector(".status").innerText;
-        if (status === "INTERVIEW") interview++;
-        if (status === "REJECTED") rejected++;
-    });
-
-    totalElement.innerText = cards.length;
-    interviewElement.innerText = interview;
-    rejectElement.innerText = rejected;
+     cards.forEach(card => {
+         const status = card.querySelector(".status").innerText;
+         if (status === "INTERVIEW") interview++;
+         if (status === "REJECTED") rejected++;
+     })
+     totalElement.innerText = cards.length;
+     interviewElement.innerText = interview;
+     rejectElement.innerText = rejected;
 
    
-    updateTabCount();
-}
+     updateTabCount();
+ }
 
 function updateTabCount() {
 
-    const activeBtn = document.querySelector(".bg-blue-600");
-    const cards = document.querySelectorAll(".card");
+     const activeBtn = document.querySelector(".bg-blue-600");
+     const cards = document.querySelectorAll(".card");
 
     if (activeBtn.id === "all-filter-btn") {
         tabCount.innerText = cards.length + " Jobs";
@@ -48,31 +44,30 @@ function updateTabCount() {
             card.querySelector(".status").innerText === "INTERVIEW"
         );
         tabCount.innerText = interviewCards.length + " Jobs";
-    }
+     }
 
     if (activeBtn.id === "reject-filter-btn") {
         const rejectedCards = [...cards].filter(card =>
             card.querySelector(".status").innerText === "REJECTED"
         );
         tabCount.innerText = rejectedCards.length + " Jobs";
-    }
-}
+     }
+ }
 
 
 function toggleStyle(activeId) {
 
-    Object.values(filterButtons).forEach(btn => {
-        btn.classList.remove("bg-blue-600", "text-white");
-        btn.classList.add("bg-gray-100", "text-slate-500");
-    });
+     Object.values(filterButtons).forEach(btn => {
+         btn.classList.remove("bg-blue-600", "text-white");
+         btn.classList.add("bg-gray-100", "text-slate-500");
+     });
 
-    const activeBtn = document.getElementById(activeId);
-    activeBtn.classList.remove("bg-gray-100", "text-slate-500");
-    activeBtn.classList.add("bg-blue-600", "text-white");
+   const activeBtn = document.getElementById(activeId);
+   activeBtn.classList.remove("bg-gray-100", "text-slate-500");
+   activeBtn.classList.add("bg-blue-600", "text-white");
 
-    filterCards(activeId);
-}
-
+     filterCards(activeId);
+ }
 
 function filterCards(type) {
 
@@ -100,7 +95,7 @@ function filterCards(type) {
         const status = card.querySelector(".status").innerText;
 
         if (status === statusType) {
-            filteredSection.appendChild(card.cloneNode(true));
+            filteredSection.appendChild(card);
             found = true;
         }
     });
@@ -119,7 +114,7 @@ function filterCards(type) {
 }
 
 
-function attachCardEvents() {
+ function attachCardEvents() {
 
     document.querySelectorAll(".card").forEach(card => {
 
@@ -128,34 +123,33 @@ function attachCardEvents() {
         const deleteBtn = card.querySelector(".btn-delet");
         const status = card.querySelector(".status");
 
-        interviewBtn.addEventListener("click", () => {
+       interviewBtn.addEventListener("click", () => {
 
             if (status.innerText === "INTERVIEW") return;
 
-            status.innerText = "INTERVIEW";
-            status.classList.remove("bg-blue-50", "text-blue-950", "bg-red-100", "text-red-600");
-            status.classList.add("bg-green-100", "text-green-600");
+           status.innerText = "INTERVIEW";
+           status.classList.remove("bg-blue-50", "text-blue-950", "bg-red-100", "text-red-600");
+           status.classList.add("bg-green-100", "text-green-600");
+
+           updateDashboard();
+        });
+         rejectBtn.addEventListener("click", () => {
+
+           if (status.innerText === "REJECTED") return;
+
+          status.innerText = "REJECTED";
+          status.classList.remove("bg-blue-50", "text-blue-950", "bg-green-100", "text-green-600");
+          status.classList.add("bg-red-100", "text-red-600");
 
             updateDashboard();
-        });
+        })
 
-        rejectBtn.addEventListener("click", () => {
-
-            if (status.innerText === "REJECTED") return;
-
-            status.innerText = "REJECTED";
-            status.classList.remove("bg-blue-50", "text-blue-950", "bg-green-100", "text-green-600");
-            status.classList.add("bg-red-100", "text-red-600");
-
+       deleteBtn.addEventListener("click", () => {
+           card.remove();
             updateDashboard();
-        });
+         });
 
-        deleteBtn.addEventListener("click", () => {
-            card.remove();
-            updateDashboard();
-        });
-
-    });
+     });
 }
 
 
